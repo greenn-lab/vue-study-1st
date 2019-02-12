@@ -1,22 +1,25 @@
 <template>
   <v-container fill-height>
     <v-layout align-center justify-center row wrap>
-      <v-flex xs12>
+      <v-flex xs12 md6 lg8>
+
+        <v-alert type="error" :value="isError" class="mb-3">Your account was wrong.</v-alert>
+
         <v-card>
           <v-toolbar flat>
             <v-toolbar-title>LOGIN</v-toolbar-title>
           </v-toolbar>
-          <div class="pa-3">
+          <form class="pa-3" @submit.prevent="login()">
             <v-text-field v-model="email" label="type your email" />
             <v-text-field
               v-model="password"
               type="password"
               label="type your password"
             />
-            <v-btn @click="login()" large block color="primary" depressed>
+            <v-btn type="submit" large block color="primary" depressed>
               ENTER
             </v-btn>
-          </div>
+          </form>
         </v-card>
       </v-flex>
     </v-layout>
@@ -29,6 +32,7 @@ export default {
     return {
       email: null,
       password: null,
+      isError: false,
       users: [
         {
           id: 0,
@@ -63,7 +67,7 @@ export default {
         {
           id: 5,
           name: 'Skinner Bullock',
-          email: 'skinnerbullock@wrapture.com',
+          email: 'skinnerbullock@wrapture.,zcom',
           password: 'Norman'
         }
       ]
@@ -71,11 +75,16 @@ export default {
   },
   methods: {
     login() {
-      // TODO find user by input email in users
-      const { email, users } = this
+      const { email, password, users } = this
       const selectedUser = users.find(user => user.email === email)
 
-      // todo That user matches password
+      if (selectedUser && selectedUser.password === password) {
+        this.isError = false
+      } else {
+        this.isError = true
+      }
+
+      console.log(this.isError)
     }
   }
 }
