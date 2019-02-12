@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <v-container fill-height>
     <v-layout align-center justify-center row wrap>
