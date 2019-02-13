@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from './router'
 
 Vue.use(Vuex)
 
@@ -44,7 +45,8 @@ export default new Vuex.Store({
         email: 'skinnerbullock@wrapture.,zcom',
         password: 'Norman'
       }
-    ]
+    ],
+    loginUser: null
   },
   mutations: {
     loginSuccess(state) {
@@ -59,13 +61,15 @@ export default new Vuex.Store({
   actions: {
     login({ state, commit }, payload) {
       const { email, password } = payload
-      const selectedUser = state.users.find(item => item.email === email)
 
-      commit(
-        selectedUser && selectedUser.password === password
-          ? 'loginSuccess'
-          : 'loginFailure'
-      )
+      state.loginUser = state.users.find(item => item.email === email)
+
+      if (state.loginUser && state.loginUser.password === password) {
+        commit('loginSuccess')
+        router.push({ name: 'my-page' })
+      } else {
+        commit('loginFailure')
+      }
     }
   }
 })

@@ -39,7 +39,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['isLogin', 'isLoginError'])
+    ...mapState(['isLoginError'])
   },
   methods: {
     ...mapActions(['login'])

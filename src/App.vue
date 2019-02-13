@@ -10,12 +10,20 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router :to="{ name: 'login' }">
+        <v-list-tile v-if="!isLogin" router :to="{ name: 'login' }">
           <v-list-tile-action>
             <v-icon>contact_mail</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>login</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-else router :to="{ name: 'my-page' }">
+          <v-list-tile-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>my-page</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
