@@ -10,7 +10,7 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router :to="{ name: 'login' }">
+        <v-list-tile v-if="!isLogin" router :to="{ name: 'login' }">
           <v-list-tile-action>
             <v-icon>contact_mail</v-icon>
           </v-list-tile-action>
@@ -18,11 +18,47 @@
             <v-list-tile-title>login</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile v-else router :to="{ name: 'my-page' }">
+          <v-list-tile-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>my-page</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Application</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn
+          router
+          :to="{ name: 'login' }"
+          v-if="!isLogin"
+          slot="activator"
+          dark
+          flat
+          icon
+        >
+          <v-icon>lock_open</v-icon>
+        </v-btn>
+
+        <v-menu left v-if="isLogin">
+          <v-btn slot="activator" dark flat icon>
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile router :to="{ name: 'my-page' }">
+              <v-list-tile-title>My page</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="$store.dispatch('logout')">
+              <v-list-tile-title>Logout</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </v-toolbar-items>
     </v-toolbar>
     <v-content>
       <router-view />
@@ -34,10 +70,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data: () => ({
     drawer: null
   }),
+  computed: {
+    ...mapState(['isLogin'])
+  },
   props: {
     source: String
   }
