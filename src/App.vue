@@ -33,8 +33,31 @@
       <v-toolbar-title>Application</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat v-if="isLogin">Welcome!</v-btn>
-        <v-btn flat v-else router :to="{ name: 'login' }">LogIn</v-btn>
+        <v-btn
+          router
+          :to="{ name: 'login' }"
+          v-if="!isLogin"
+          slot="activator"
+          dark
+          flat
+          icon
+        >
+          <v-icon>lock_open</v-icon>
+        </v-btn>
+
+        <v-menu left v-if="isLogin">
+          <v-btn slot="activator" dark flat icon>
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile router :to="{ name: 'my-page' }">
+              <v-list-tile-title>My page</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="$store.dispatch('logout')">
+              <v-list-tile-title>Logout</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
